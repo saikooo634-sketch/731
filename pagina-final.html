@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pra você 💙</title>
+
+<style>
+body{
+    margin:0;
+    background:#000;
+    color:white;
+    font-family:Arial, sans-serif;
+    text-align:center;
+    padding:40px;
+}
+
+h1{
+    color:#ff4d6d;
+    margin-bottom:20px;
+}
+
+.texto{
+    max-width:700px;
+    margin:auto;
+    font-size:18px;
+    line-height:1.6;
+    white-space:pre-line;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Pra você ❤️</h1>
+
+<div class="texto">
+fazendo o texto
+</div>
+
+<!-- MÚSICA -->
+<audio autoplay loop id="musica">
+  <source src="musica.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+window.addEventListener("load", () => {
+  const audio = document.getElementById("musica");
+  audio.volume = 0.5;
+
+  const playPromise = audio.play();
+
+  if (playPromise !== undefined) {
+    playPromise.catch(() => {
+      console.log("Autoplay bloqueado pelo navegador.");
+    });
+  }
+});
+</script>
+
+</body>
+</html>

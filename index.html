@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARQUIVO_731.LOG</title>
+
+<!-- REGISTRO 08: resposta = sombra -->
+
+<style>
+body{
+    margin:0;
+    background:#000;
+    color:#c00000;
+    font-family:Consolas, monospace;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    overflow:hidden;
+}
+
+body::before{
+    content:"";
+    position:fixed;
+    width:100%;
+    height:100%;
+    background:
+    repeating-linear-gradient(
+        0deg,
+        rgba(255,255,255,.03),
+        rgba(255,255,255,.03) 1px,
+        transparent 1px,
+        transparent 3px
+    );
+    pointer-events:none;
+}
+
+.container{
+    width:90%;
+    max-width:850px;
+    background:#090909;
+    border:1px solid #500;
+    box-shadow:0 0 25px #500;
+    padding:30px;
+    text-align:center;
+}
+
+h1{
+    animation:flicker 2s infinite;
+}
+
+@keyframes flicker{
+    0%,100%{opacity:1;}
+    50%{opacity:.7;}
+    52%{opacity:.2;}
+    54%{opacity:1;}
+}
+
+.glitch{
+    color:white;
+    text-shadow:
+        2px 0 red,
+       -2px 0 blue;
+}
+
+input{
+    width:300px;
+    padding:10px;
+    background:#111;
+    color:white;
+    border:1px solid #700;
+    margin-top:15px;
+}
+
+button{
+    padding:10px 20px;
+    background:#300;
+    color:white;
+    border:none;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#500;
+}
+
+#msg{
+    margin-top:15px;
+    color:#ff6666;
+}
+
+#pergunta{
+    white-space:pre-line;
+    line-height:1.6;
+}
+
+/* BOTÃO CONTINUAR */
+#continuarBtn{
+    margin-top:20px;
+    display:none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>ARQUIVO_731.LOG</h1>
+
+<p>
+12 REGISTROS RECUPERADOS<br>
+AVISO: Alguns dados estão corrompidos.
+</p>
+
+<h2 id="nivel"></h2>
+
+<p id="pergunta"></p>
+
+<input id="resposta" autocomplete="off" placeholder="Digite sua resposta">
+
+<br><br>
+
+<button onclick="verificar()">ENVIAR</button>
+
+<p id="msg"></p>
+
+<!-- BOTÃO FINAL -->
+<button id="continuarBtn" onclick="continuar()">
+CONTINUAR
+</button>
+
+</div>
+
+<script>
+
+const enigmas = [
+{pergunta:`Durante vinte anos ela observou o mar.
+
+De dia construía.
+
+De noite destruía.
+
+Não porque fosse fraca.
+
+Mas porque se recusava a esquecer.
+
+Quem era ela?`,resposta:"penelope"},
+
+{pergunta:`Ele enganou um ciclope.
+
+Desafiou um deus.
+
+Sobreviveu a monstros e tempestades.
+
+Mas o obstáculo mais difícil não estava no mar.
+
+Estava em casa.
+
+Quem era ele?`,resposta:"odisseus"},
+
+{pergunta:`O rei temia uma profecia.
+
+O pai tentou impedir o destino.
+
+O filho correu dele.
+
+Ainda assim, a estrada levou os dois ao mesmo lugar.
+
+Qual era o nome do filho?`,resposta:"edipo"},
+
+{pergunta:`Ele passou anos fugindo.
+
+Mudou de nome.
+
+Mudou de rosto.
+
+Mudou de vida.
+
+Mas continuou carregando o mesmo sobrenome.
+
+Qual era esse sobrenome?`,resposta:"wesninski"},
+
+{pergunta:`Acorrentado.
+
+Condenado.
+
+Imortal.
+
+Seu castigo não era morrer.
+
+Era ajudar aqueles que o haviam condenado.
+
+Qual era o nome do titã?`,resposta:"prometeu"},
+
+{pergunta:`O rosto não era dele.
+
+A culpa também não.
+
+Mesmo assim, ele carregou ambos por anos.
+
+Quando todos viam um monstro, apenas uma pessoa ainda o chamava de amigo.
+
+Qual era o nome dessa pessoa?`,resposta:"larry"},
+
+{pergunta:`Eles nasceram separados por ruas.
+
+Separados por anos.
+
+Separados por escolhas.
+
+Ainda assim, cada caminho parecia empurrá-los para o mesmo lugar.
+
+Como se o encontro tivesse sido escrito muito antes de acontecer.
+
+O que os unia?`,resposta:"destino"},
+
+{pergunta:"Às vezes a resposta está bem atrás de você.",resposta:"sombra"},
+
+{pergunta:`O Labirinto não seguia regras.
+
+Cada passo podia levar a um lugar diferente.
+
+A missão era continuar em frente.
+
+Chegar ao centro.
+
+E impedir o pior.
+
+Mas no meio do caminho, ela desapareceu.
+
+E tudo deixou de fazer sentido.
+
+Quem era ela?`,resposta:"annabeth"},
+
+{pergunta:"E de todos os meninos e meninas que eu já amei...",resposta:"eu escolhi você"},
+
+{pergunta:"Diga pra mim que é real...",resposta:"que eu te prometo meu melhor"},
+
+{pergunta:"500 + 231 = ?",resposta:"731"}
+];
+
+const erros = [
+"Resposta rejeitada.",
+"Registro incompatível.",
+"Ele também respondeu isso.",
+"Tente novamente.",
+"Dados corrompidos.",
+"Você tem certeza?",
+"Você não estava lá."
+];
+
+let atual = 0;
+
+function carregar(){
+
+document.getElementById("nivel").innerHTML =
+"<span class='glitch'>REGISTRO " +
+String(atual+1).padStart(2,"0") +
+"/12</span>";
+
+document.getElementById("pergunta").textContent =
+enigmas[atual].pergunta;
+
+document.getElementById("resposta").value = "";
+
+if(atual === 7){
+setTimeout(()=>{
+alert(`DICA
+
+Olhe para trás. (É BRINCADEIRA NÃO TO ATRÁS DE VOCÊ, mas tem haver com algo que te persegue.)`);
+},1000);
+}
+
+}
+
+function verificar(){
+
+const r =
+document.getElementById("resposta")
+.value
+.trim()
+.toLowerCase();
+
+if(r === enigmas[atual].resposta){
+
+document.getElementById("msg").textContent =
+"Acesso liberado.";
+
+atual++;
+
+if(atual >= enigmas.length){
+
+document.getElementById("continuarBtn").style.display = "block";
+return;
+}
+
+setTimeout(carregar,700);
+
+}
+else{
+document.getElementById("msg").textContent =
+erros[Math.floor(Math.random()*erros.length)];
+}
+
+}
+
+function continuar(){
+window.location.href = "pagina-final.html";
+}
+
+setInterval(()=>{
+
+if(Math.random() < 0.15){
+
+document.title = "ERRO_DE_LEITURA";
+
+setTimeout(()=>{
+document.title = "ARQUIVO_731.LOG";
+},500);
+
+}
+
+},2500);
+
+carregar();
+
+</script>
+
+</body>
+</html>
