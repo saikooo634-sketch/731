@@ -3,16 +3,44 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pra você 💙</title>
+<title>Para minha princesa, Heloísa ❤️</title>
 
 <style>
 body{
     margin:0;
-    background:#000;
     color:white;
     font-family:Arial, sans-serif;
     text-align:center;
     padding:40px;
+    overflow-x:hidden;
+}
+
+/* 🎬 VÍDEO DE FUNDO */
+#bg-video{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    z-index:-3;
+}
+
+/* 🖤 OVERLAY ESCURO */
+#overlay{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.6);
+    z-index:-2;
+}
+
+/* TEXTO FICA ACIMA DE TUDO */
+.container{
+    position:relative;
+    z-index:1;
 }
 
 h1{
@@ -32,29 +60,57 @@ h1{
 
 <body>
 
-<h1>Pra você ❤️</h1>
+<!-- 🎬 VÍDEO -->
+<video autoplay muted loop playsinline id="bg-video">
+  <source src="fundo.mp4" type="video/mp4">
+</video>
+
+<!-- 🖤 OVERLAY -->
+<div id="overlay"></div>
+
+<!-- CONTEÚDO -->
+<div class="container">
+
+<h1>Para minha princesa, Heloísa ❤️</h1>
 
 <div class="texto">
-fazendo o texto
+Amor da minha vida, você não sabe a diferença que você faz no meu mundo. Meus dias deixam de ter tons pastéis e se tornam mais coloridos com sua presença, você pra mim é a força que inveja qualquer atleta determinado, o cheiro doce e inocente da infância, a flor mais linda de keukenhof, você é tudo de mais belo e inocente, tudo que meus olhos enxergam e desejam descansar na visão, você é minha, e eu sou SEU.
+Eu quero sentir a sua voz calma falando sobre coisas que você gosta, falando sobre o seu amor pela cor rosa, Percy Jackson, descendentes e outras séries e filmes que você tanto ama, das músicas do Jão, da Olívia Rodrigo e de todos os artistas que você ouve, dos livros que você gostaria de conversar com alguém sobre, sua apreciação pela solitude, seu amor pelo frio, os jogos ""bobinhos"" de simulator que você joga e que eventualmente eu testo e começo a jogar também, sobre sua vontade de fazer um piercing futuramente, sua vontade de morar fora do país pra Noruega Reino Unido ou Canadá, quero sentir seu toque, quero sentir sua presença, quero sentir seu calor, quero te abraçar, quero chorar em seus braços, quero sentir todas as emoções ao seu lado, somente ao seu lado e de mais ninguém, minha alma clama somente por você, cada dia que se passa eu só te admiro e apaixono mais e mais, meu amor por você é capaz de invejar até o mais romântico do mundo, por você eu destruiria o olimpo todo.
+Quero compartilhar minha vida com você, respeitar seu espaço mas também estar sempre torcendo de longe e ao mesmo tempo estar presente pra tudo que precisar.
+Aproveitar a natureza e assistir as estrelas ao seu lado, ouvindo música e conversando, e entre risadas e brincadeiras me perder nos seus olhos, como se eu estivesse olhando pro sentido da vida.
+E quando a vida não estiver tão boa, quero cuidar de você com todo meu coração, pois você é meu lar.
+Tudo que eu declarei acima foi apenas um pouco de todo meu amor que sinto pro você, isso tudo um simples "eu te amo" jamais conseguiria definir. Então eu digo do fundo do meu peito:
+
+Você me faz querer ser melhor, me dedicar e enfrentar desafios mais difíceis e provar que eu consigo tudo que eu sonho, e enquanto eu puder sonhar, eu sempre sonharei com você, eu te amo e irei te amar até que eu morra, e se existir pós-vida, continuarei amando.
+
+EU TE AMO MUITO. ❤️
 </div>
 
-<!-- MÚSICA -->
-<audio autoplay loop id="musica">
+</div>
+
+<!-- 🎵 MÚSICA -->
+<audio loop id="musica">
   <source src="musica.mp3" type="audio/mpeg">
 </audio>
 
 <script>
 window.addEventListener("load", () => {
+
   const audio = document.getElementById("musica");
   audio.volume = 0.5;
 
+  // tenta tocar automaticamente
   const playPromise = audio.play();
 
   if (playPromise !== undefined) {
     playPromise.catch(() => {
-      console.log("Autoplay bloqueado pelo navegador.");
+      // se bloquear, cria interação pra liberar som
+      document.body.addEventListener("click", () => {
+        audio.play();
+      }, { once: true });
     });
   }
+
 });
 </script>
 
